@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Football Quiz</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <main>
+            <div class="header">
+                <div id="quiz"></div>
+                <button id="submit">Submit Quiz</button>
+                <div id="results"></div>
+            </div>
+            <script>
+                (function(){
+                function Quiz(){
+                const output = [];
+                TheQuestions.forEach(
+                (CQuestion, questionNo) => {
+                const answers = [];
+                for(letter in CQuestion.answers){
+
+                answers.push(
+            `  <label>
+              <input type="radio" name="question${questionNo}" value="${letter}">
+              ${letter} :
+              ${CQuestion.answers[letter]}
+              </label>`
+             );
+            }
+
+              output.push(
+          `   <div class="question"> ${CQuestion.question} </div>
+              <div class="answers"> ${answers.join('')} </div>`
+             );
+            }
+           );
+
+            quizContainer.innerHTML = output.join('');
+            }
+
+  function showResults(){
+
+    const answerCont = quizContainer.querySelectorAll('.answers');
+
+    // keep track of user's answers
+    let numCorrect = 0;
+
+    // for each question...
+    TheQuestions.forEach( (CQuestion, questionNo) => {
+
+      // find selected answer
+      const answerContainer = answerCont[questionNo];
+      const selector = `input[name=question${questionNo}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      if(userAnswer === CQuestion.correctAnswer){
+        numCorrect++;
+
+        answerCont[questionNo].style.color = 'green';
+      }
+      else{
+        answerCont[questionNo].style.background = "red";
+      }
+    });
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${TheQuestions.length}`;
+  }
+
+  const quizContainer = document.getElementById('quiz');
+  const resultsContainer = document.getElementById('results');
+  const submitButton = document.getElementById('submit');
+  const TheQuestions = [
+    {
+      question: "Which player scored the fastest hat-trick in the Premier League?",
+      answers: {
+        a: "Sadio Mane",
+        b: "Cristiano Ronaldo",
+        c: "Lionel messi",
+        d: "Neymar jr"
+      },
+      correctAnswer: "a"
+    },
+    {
+      question: "With 260 goals, who is the Premier League's all-time top scorer?",
+      answers: {
+        a: "Mohamed Salah",
+        b: "Zinedine Zidane",
+        c: "Alan Shearer",
+        d: "Harry Kane"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "Which three players shared the Premier League Golden Boot in 2018-19?",
+      answers: {
+        a: "Bob Paisley, Carlo Ancelotti and Zinedine Zidane",
+        b: "Pierre-Emerick Aubameyang, Mohamed Salah and Sadio Mane",
+        c: "Patrick Vieira, Richard Dunne and Duncan Ferguson",
+        d: "Franz Beckenbauer,Miroslav Klose and Pierre-Emerick Aubameyang"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "The 2026 World Cup will be hosted across three different countries. Can you name them?",
+      answers: {
+        a: "Nigeria,South Africa,Ghana",
+        b: "United States, Canada and Mexico",
+        c: "England, Spain, Netherlands",
+        d: "France, Turkey,Canada"
+      },
+      correctAnswer: "b"
+    },
+    {
+      question: "Two English players have won the World Cup Golden Boot. Who are they?",
+      answers: {
+        a: "Jesse Lingard and Jordan Henderson",
+        b: "James Maddison and Raheem Sterling",
+        c: "Marcus Rashford and Wayne rooney",
+        d: "Gary Lineker  and Harry Kane "
+      },
+      correctAnswer: "d"
+    },
+    {
+      question: "Which Ballon d'Or-winning footballer had a galaxy named after them in 2015?",
+      answers: {
+        a: "Cristiano Ronaldo",
+        b: "Lionel messi",
+        c: "Miroslav Klose",
+        d: "Neymar jr"
+      },
+      correctAnswer: "a"
+    }
+  ];
+
+  // Kick things off
+  Quiz();
+
+  // Event listeners
+  submitButton.addEventListener('click', showResults);
+})();
+
+        </script>
+        </main>
+    </body>
+</html>
+        
+    
+           
+
